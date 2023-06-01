@@ -64,6 +64,5 @@ internal class Program
                 } while (!int.TryParse(Console.ReadLine(),out op) || op < 0 || op > 1);
             }
         } while (op != 0);
-        Console.WriteLine(cal.Resultado);
     }
 }

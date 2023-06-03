@@ -1,68 +1,41 @@
-﻿using EspacioCalculadora;
+﻿using EspacioEmpleado;
 internal class Program
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        Empleado[] empleados= new Empleado[3];
 
-        Calculadora cal = new Calculadora(); //creo un objeto del tipo Calculadora con el nombre cal
+        empleados[0] = new Empleado("nombre1","apellido1",DateTime.Parse("01/01/1980"),'S','M',DateTime.Parse("01/01/2005"),312930.12,Empleado.Cargos.Administrativo);
+        empleados[1] = new Empleado("nombre2","apellido2",new DateTime(1981,5,23),'C','M',new DateTime (2008,3,2),65000,Empleado.Cargos.Especialista);
+        empleados[2] = new Empleado("nombre3","apellido3",new DateTime(1999,8,1),'S','M',new DateTime (2021,7,2),80123.123,Empleado.Cargos.Auxiliar);
 
-        //--------interfaz-------
-        int op = 1;
-        double num1;
-
-        do
+        System.Console.WriteLine("<<<<<<<<<<< DATOS DE TODOS LOS EMPLEADOS >>>>>>>>>>>");
+        foreach (var item in empleados)
         {
-            do
+            item.mostrarDatos();
+            System.Console.WriteLine("----------------------------");
+        }
+
+        // monto total (suma de los salario de todos los empleados)
+        double montoTotal = 0;
+        foreach (var item in empleados)
+        {
+            montoTotal += item.salario();
+        }
+        System.Console.WriteLine("<<<<<<<<<<<<<<<< Monto total >>>>>>>>>>>");
+        System.Console.WriteLine(montoTotal);
+
+        /*-------- Mas proximo a jubilarse -------  */
+        System.Console.WriteLine("<<<<<<<<<<< Empleado mas proximo a jubilarse >>>>>>>>>>>>");
+        Empleado masProximo = empleados[0];
+        foreach (var item in empleados)
+        {
+            if (item.tiempoJubilacion() <  masProximo.tiempoJubilacion())
             {
-                Console.WriteLine("<><><><><><><><><><><><><><><><><><><><><><><>");
-                Console.WriteLine("<>   Ingrese la operacion a realizar:       <>");
-                Console.WriteLine("<>   0-Salir                                <>");
-                Console.WriteLine("<>   1-Suma                                 <>");
-                Console.WriteLine("<>   2-Resta                                <>");
-                Console.WriteLine("<>   3-Multiplicacion                       <>");
-                Console.WriteLine("<>   4-Division                             <>");
-                Console.WriteLine("<>   5-Limpiar                              <>");
-                Console.WriteLine("<><><><><><><><><><><><><><><><><><><><><><><>");
-            } while (!int.TryParse(Console.ReadLine(),out op) || op < 0 || op > 5); //si ingreso un texto o un valor que no este en el rango seguir iterando
-
-            if (op != 0)
-            {
-                do
-                {
-                    Console.WriteLine("<<<< Ingrese un numero >>>>");  
-                } while (!double.TryParse(Console.ReadLine(),out num1));
-
-                switch (op)
-                {
-                    case 1:
-                        cal.Sumar(num1);
-                        Console.WriteLine("\nSuma : " + cal.Resultado + "\n");
-                        break;
-
-                    case 2:
-                        cal.Restar(num1);
-                        Console.WriteLine($"\nResta: {cal.Resultado}");
-                        break;
-
-                    case 3:
-                        Console.WriteLine($"\nProducto:{cal.Resultado}\n");
-                        break;
-
-                    case 4:
-                        Console.WriteLine($"\nDivision: {cal.Resultado}\n");
-                        break;
-                    case 5:
-                        cal.Limpiar();
-                        Console.WriteLine($"\nDivision: {cal.Resultado}\n");
-                        break;
-                }
-
-                do
-                {
-                    Console.WriteLine("<<<< Desea continuar? SI[1] / NO[0] >>>>");
-                } while (!int.TryParse(Console.ReadLine(),out op) || op < 0 || op > 1);
+                masProximo = item;
             }
-        } while (op != 0);
+        }
+
+        masProximo.mostrarDatos();
     }
 }
